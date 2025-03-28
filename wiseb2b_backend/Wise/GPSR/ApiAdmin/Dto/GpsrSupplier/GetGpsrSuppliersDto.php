@@ -14,10 +14,14 @@ class GetGpsrSuppliersDto extends CommonListAdminApiResponseDto
     )]
     protected string $id;
 
+    #[OA\Query(
+        description: 'Symbol dostawcy',
+        example: 'WiseB2B',
+        fieldEntityMapping: 'symbol'
+    )]
+    protected string $symbol;
+
     /** @var GetGpsrSupplierDto[] $objects */
     protected ?array $objects;
-
-
-
 }
 
