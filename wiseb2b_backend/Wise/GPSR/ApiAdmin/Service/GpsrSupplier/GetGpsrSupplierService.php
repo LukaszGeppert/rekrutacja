@@ -4,14 +4,17 @@ namespace Wise\GPSR\ApiAdmin\Service\GpsrSupplier;
 
 use Wise\Core\ApiAdmin\Helper\AdminApiShareMethodsHelper;
 use Wise\Core\ApiAdmin\Service\AbstractGetListAdminApiService;
+use Wise\Core\Dto\AbstractDto;
 use Wise\GPSR\ApiAdmin\Service\GpsrSupplier\Interfaces\GetGpsrSupplierServiceInterface;
 use Wise\GPSR\Service\GpsrSupplier\Interfaces\ListGpsrSupplierServiceInterface;
+use Wise\GPSR\Service\GpsrSupplier\SupplierQualityPointsCalculatorService;
 
 class GetGpsrSupplierService extends AbstractGetListAdminApiService implements GetGpsrSupplierServiceInterface
 {
     public function __construct(
         AdminApiShareMethodsHelper $adminApiShareMethodsHelper,
         private readonly ListGpsrSupplierServiceInterface $listSupplierService,
+        private readonly SupplierQualityPointsCalculatorService $supplierQualityPointsCalculatorService,
     ){
         parent::__construct($adminApiShareMethodsHelper, $listSupplierService);
     }
@@ -48,5 +51,13 @@ class GetGpsrSupplierService extends AbstractGetListAdminApiService implements G
             'address.state' => 'address.state',
             'address.countryCode' => 'address.countryCode',
         ]);
+    }
+
+    protected function fillResponseDto(AbstractDto $responseDtoItem, array $cacheData, ?array $serviceDtoItem = null): void
+    {
+        $qualityPoints = $this->supplierQualityPointsCalculatorService->calculateSupplierQualityPoints($responseDtoItem);
+
+        $responseDtoItem->setQualityPoints($qualityPoints->getQualityPoints());
+        $responseDtoItem->setQualityText($qualityPoints->getQualityText());
     }
 }

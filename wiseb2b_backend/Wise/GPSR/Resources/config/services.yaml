@@ -5,6 +5,9 @@ services:
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  _instanceof:
+    Wise\GPSR\Service\GpsrSupplier\QualityPointsAddition\Interfaces\QualityPointsAdditionInterface:
+      tags: ['supplier_quality_points_addition']
 
   ## Config for autoconfigure
   Wise\GPSR\:
@@ -21,3 +24,7 @@ services:
   Wise\GPSR\Domain\GpsrSupplier\Factory\GpsrSupplierFactory:
     arguments:
       $entity: '%gpsr_supplier_entity%'
+
+  Wise\GPSR\Service\GpsrSupplier\SupplierQualityPointsCalculatorService:
+    arguments:
+      $qualityPointsAdditions: !tagged_iterator supplier_quality_points_addition

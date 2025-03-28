@@ -4,9 +4,11 @@ namespace Wise\GPSR\ApiAdmin\Dto\GpsrSupplier;
 
 use Wise\Core\Api\Attributes\OpenApi\EndpointElement as OA;
 use Wise\Core\Api\Dto\Attributes\FieldEntityMapping;
+use Wise\Core\Api\Fields\FieldHandlingEnum;
 use Wise\Core\ApiAdmin\Dto\CommonAdminApiDto;
 use Wise\Core\ApiAdmin\Dto\CommonDateInsertUpdateDtoTrait;
 use Wise\Core\Model\Address;
+use Wise\GPSR\Domain\GpsrSupplier\QualityPoints;
 
 class GetGpsrSupplierDto extends CommonAdminApiDto
 {
@@ -60,6 +62,18 @@ class GetGpsrSupplierDto extends CommonAdminApiDto
         description: 'Adres dostawcy'
     )]
     protected ?Address $address;
+
+    #[OA\Property(
+        description: 'Punkty jakości dostawcy'
+    )]
+    #[FieldEntityMapping(FieldHandlingEnum::HANDLE_ONLY_BY_FILL_RESPONSE_DTO)]
+    protected ?int $qualityPoints;
+
+    #[OA\Property(
+        description: 'Opisowa ocena jakości dostawcy'
+    )]
+    #[FieldEntityMapping(FieldHandlingEnum::HANDLE_ONLY_BY_FILL_RESPONSE_DTO)]
+    protected ?string $qualityText;
 
     public function getId(): ?string
     {
@@ -157,5 +171,27 @@ class GetGpsrSupplierDto extends CommonAdminApiDto
         return $this;
     }
 
+    public function getQualityPoints(): ?int
+    {
+        return $this->qualityPoints;
+    }
 
+    public function setQualityPoints(?int $qualityPoints): self
+    {
+        $this->qualityPoints = $qualityPoints;
+
+        return $this;
+    }
+
+    public function getQualityText(): ?string
+    {
+        return $this->qualityText;
+    }
+
+    public function setQualityText(?string $qualityText): self
+    {
+        $this->qualityText = $qualityText;
+
+        return $this;
+    }
 }
