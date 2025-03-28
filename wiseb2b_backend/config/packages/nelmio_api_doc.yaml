@@ -62,6 +62,10 @@ nelmio_api_doc:
         type: Wise\Core\ApiAdmin\Dto\CommonAdminApiDeleteParametersDto
         areas:
           - api_admin_v2
+      - alias: GetGpsrSuppliersDto
+        type: Wise\GPSR\ApiAdmin\Dto\GpsrSupplier\GetGpsrSuppliersDto
+        areas:
+          - api_admin_v2
       - alias: PutCountriesDto
         type: Wise\I18n\ApiAdmin\Dto\Countries\PutCountriesDto
         areas:
